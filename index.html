@@ -132,13 +132,15 @@
       왼쪽에는 <strong>Regular 과목</strong>, 오른쪽에는 <strong>Honors & AP 과목</strong> 정보를 입력합니다.
     </p>
     <p>
-      계산 공식: <strong>GPA = Σ(GP × Credit) ÷ Σ(Credit)</strong>
+      <strong>Weighted GPA</strong> = Σ(GP × Credit) ÷ Σ(Credit)
+    </p>
+    <p>
+      <strong>Unweighted GPA</strong> = Honors/AP 가산점을 제외하고 Regular 기준으로 환산한 GPA
     </p>
   </div>
 
   <div class="container">
 
-    <!-- Regular Section -->
     <div class="box">
       <h2>Regular</h2>
 
@@ -155,15 +157,14 @@
           <tr>
             <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
             <td><input type="number" min="0" max="4" step="0.01" placeholder="예: 3.50"></td>
-            <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+            <td><button type="button" class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
           </tr>
         </tbody>
       </table>
 
-      <button class="add-btn" onclick="addRegularRow()">Regular 추가</button>
+      <button type="button" class="add-btn" onclick="addRegularRow()">Regular 추가</button>
     </div>
 
-    <!-- Honors & AP Section -->
     <div class="box">
       <h2>Honors & AP</h2>
 
@@ -180,22 +181,23 @@
           <tr>
             <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
             <td><input type="number" min="0" max="5" step="0.01" placeholder="예: 5.00"></td>
-            <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+            <td><button type="button" class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
           </tr>
         </tbody>
       </table>
 
-      <button class="add-btn" onclick="addHonorsRow()">Honors/AP 추가</button>
+      <button type="button" class="add-btn" onclick="addHonorsRow()">Honors/AP 추가</button>
     </div>
 
   </div>
 
-  <button class="calc-btn" onclick="calculateGPA()">GPA 계산하기</button>
+  <button type="button" class="calc-btn" onclick="calculateGPA()">GPA 계산하기</button>
 
   <div class="result-box" id="result">
     Regular GPA: - <br>
     Honors & AP GPA: - <br>
-    전체 Weighted GPA: -
+    Weighted GPA: - <br>
+    Unweighted GPA: -
   </div>
 
   <script>
@@ -207,7 +209,7 @@
       newRow.innerHTML = `
         <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
         <td><input type="number" min="0" max="4" step="0.01" placeholder="예: 3.50"></td>
-        <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+        <td><button type="button" class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
       `;
 
       tableBody.appendChild(newRow);
@@ -221,22 +223,31 @@
       newRow.innerHTML = `
         <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
         <td><input type="number" min="0" max="5" step="0.01" placeholder="예: 5.00"></td>
-        <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+        <td><button type="button" class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
       `;
 
       tableBody.appendChild(newRow);
     }
 
     function deleteRow(button) {
-      const row = button.parentElement.parentElement;
+      const row = button.closest("tr");
       row.remove();
     }
 
-    function calculateSectionGPA(tableId, maxGP) {
-      const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+    function convertHonorsToUnweightedGP(gp) {
+      if (gp >= 3.00) {
+        return gp - 1.00;
+      }
 
-      let totalPoints = 0;
-      let totalCredits = 0;
+      return gp;
+    }
+
+    function calculateRegularSection() {
+      const rows = document.querySelectorAll("#regularTable tbody tr");
+
+      let weightedPoints = 0;
+      let unweightedPoints = 0;
+      let credits = 0;
 
       for (let row of rows) {
         const inputs = row.querySelectorAll("input");
@@ -251,44 +262,90 @@
         const credit = Number(creditValue);
         const gp = Number(gpValue);
 
-        if (isNaN(credit) || isNaN(gp) || credit <= 0 || gp < 0 || gp > maxGP) {
-          alert("학점과 GP 값을 올바르게 입력해주세요.");
+        if (isNaN(credit) || isNaN(gp) || credit <= 0 || gp < 0 || gp > 4) {
+          alert("Regular 과목의 학점은 0보다 크게, GP는 0~4 사이로 입력해주세요.");
           return null;
         }
 
-        totalPoints += credit * gp;
-        totalCredits += credit;
+        weightedPoints += credit * gp;
+        unweightedPoints += credit * gp;
+        credits += credit;
       }
 
       return {
-        totalPoints: totalPoints,
-        totalCredits: totalCredits,
-        gpa: totalCredits > 0 ? totalPoints / totalCredits : 0
+        weightedPoints: weightedPoints,
+        unweightedPoints: unweightedPoints,
+        credits: credits,
+        gpa: credits > 0 ? weightedPoints / credits : 0
+      };
+    }
+
+    function calculateHonorsSection() {
+      const rows = document.querySelectorAll("#honorsTable tbody tr");
+
+      let weightedPoints = 0;
+      let unweightedPoints = 0;
+      let credits = 0;
+
+      for (let row of rows) {
+        const inputs = row.querySelectorAll("input");
+
+        const creditValue = inputs[0].value;
+        const gpValue = inputs[1].value;
+
+        if (creditValue === "" && gpValue === "") {
+          continue;
+        }
+
+        const credit = Number(creditValue);
+        const gp = Number(gpValue);
+
+        if (isNaN(credit) || isNaN(gp) || credit <= 0 || gp < 0 || gp > 5) {
+          alert("Honors/AP 과목의 학점은 0보다 크게, GP는 0~5 사이로 입력해주세요.");
+          return null;
+        }
+
+        const unweightedGP = convertHonorsToUnweightedGP(gp);
+
+        weightedPoints += credit * gp;
+        unweightedPoints += credit * unweightedGP;
+        credits += credit;
+      }
+
+      return {
+        weightedPoints: weightedPoints,
+        unweightedPoints: unweightedPoints,
+        credits: credits,
+        gpa: credits > 0 ? weightedPoints / credits : 0
       };
     }
 
     function calculateGPA() {
-      const regular = calculateSectionGPA("regularTable", 4);
-      const honors = calculateSectionGPA("honorsTable", 5);
+      const regular = calculateRegularSection();
+      const honors = calculateHonorsSection();
 
       if (regular === null || honors === null) {
         return;
       }
 
-      const totalPoints = regular.totalPoints + honors.totalPoints;
-      const totalCredits = regular.totalCredits + honors.totalCredits;
+      const totalCredits = regular.credits + honors.credits;
 
       if (totalCredits === 0) {
         alert("계산할 학점과 GP를 입력해주세요.");
         return;
       }
 
-      const overallWeightedGPA = totalPoints / totalCredits;
+      const totalWeightedPoints = regular.weightedPoints + honors.weightedPoints;
+      const totalUnweightedPoints = regular.unweightedPoints + honors.unweightedPoints;
+
+      const weightedGPA = totalWeightedPoints / totalCredits;
+      const unweightedGPA = totalUnweightedPoints / totalCredits;
 
       document.getElementById("result").innerHTML = `
-        <strong>Regular GPA:</strong> ${regular.totalCredits > 0 ? regular.gpa.toFixed(2) : "-"} <br>
-        <strong>Honors & AP GPA:</strong> ${honors.totalCredits > 0 ? honors.gpa.toFixed(2) : "-"} <br>
-        <strong>전체 Weighted GPA:</strong> ${overallWeightedGPA.toFixed(2)}
+        <strong>Regular GPA:</strong> ${regular.credits > 0 ? regular.gpa.toFixed(2) : "-"} <br>
+        <strong>Honors & AP GPA:</strong> ${honors.credits > 0 ? honors.gpa.toFixed(2) : "-"} <br>
+        <strong>Weighted GPA:</strong> ${weightedGPA.toFixed(2)} <br>
+        <strong>Unweighted GPA:</strong> ${unweightedGPA.toFixed(2)}
       `;
     }
   </script>
