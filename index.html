@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>GPA 계산기</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f7f9fc;
+      color: #222;
+    }
+
+    h1 {
+      color: #005a9c;
+      text-align: center;
+    }
+
+    .description {
+      background: #ffffff;
+      padding: 15px;
+      border-left: 5px solid #005a9c;
+      margin-bottom: 25px;
+      line-height: 1.6;
+    }
+
+    .container {
+      display: flex;
+      gap: 30px;
+      justify-content: space-between;
+    }
+
+    .box {
+      width: 50%;
+      background: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-top: 5px solid #005a9c;
+      border-radius: 6px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #005a9c;
+      margin-top: 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #005a9c;
+      color: white;
+    }
+
+    input {
+      padding: 8px;
+      width: 90%;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      margin: 5px;
+      font-size: 14px;
+    }
+
+    .add-btn {
+      background-color: #2e86de;
+      color: white;
+    }
+
+    .calc-btn {
+      background-color: #27ae60;
+      color: white;
+      font-size: 16px;
+      display: block;
+      margin: 25px auto;
+      padding: 12px 25px;
+    }
+
+    .delete-btn {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .result-box {
+      background: white;
+      padding: 20px;
+      border: 2px solid #005a9c;
+      margin-top: 20px;
+      font-size: 18px;
+      line-height: 1.9;
+      text-align: center;
+    }
+
+    @media (max-width: 800px) {
+      .container {
+        flex-direction: column;
+      }
+
+      .box {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>GPA 계산기</h1>
+
+  <div class="description">
+    <p>
+      이 GPA 계산기는 <strong>학점 Credit</strong>과 <strong>GP</strong>만 입력하여 계산합니다.
+    </p>
+    <p>
+      왼쪽에는 <strong>Regular 과목</strong>, 오른쪽에는 <strong>Honors & AP 과목</strong> 정보를 입력합니다.
+    </p>
+    <p>
+      계산 공식: <strong>GPA = Σ(GP × Credit) ÷ Σ(Credit)</strong>
+    </p>
+  </div>
+
+  <div class="container">
+
+    <!-- Regular Section -->
+    <div class="box">
+      <h2>Regular</h2>
+
+      <table id="regularTable">
+        <thead>
+          <tr>
+            <th>학점 Credit</th>
+            <th>GP</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
+            <td><input type="number" min="0" max="4" step="0.01" placeholder="예: 3.50"></td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="add-btn" onclick="addRegularRow()">Regular 추가</button>
+    </div>
+
+    <!-- Honors & AP Section -->
+    <div class="box">
+      <h2>Honors & AP</h2>
+
+      <table id="honorsTable">
+        <thead>
+          <tr>
+            <th>학점 Credit</th>
+            <th>GP</th>
+            <th>삭제</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
+            <td><input type="number" min="0" max="5" step="0.01" placeholder="예: 5.00"></td>
+            <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="add-btn" onclick="addHonorsRow()">Honors/AP 추가</button>
+    </div>
+
+  </div>
+
+  <button class="calc-btn" onclick="calculateGPA()">GPA 계산하기</button>
+
+  <div class="result-box" id="result">
+    Regular GPA: - <br>
+    Honors & AP GPA: - <br>
+    전체 Weighted GPA: -
+  </div>
+
+  <script>
+    function addRegularRow() {
+      const tableBody = document.querySelector("#regularTable tbody");
+
+      const newRow = document.createElement("tr");
+
+      newRow.innerHTML = `
+        <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
+        <td><input type="number" min="0" max="4" step="0.01" placeholder="예: 3.50"></td>
+        <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+      `;
+
+      tableBody.appendChild(newRow);
+    }
+
+    function addHonorsRow() {
+      const tableBody = document.querySelector("#honorsTable tbody");
+
+      const newRow = document.createElement("tr");
+
+      newRow.innerHTML = `
+        <td><input type="number" min="0" step="0.5" placeholder="예: 4.00"></td>
+        <td><input type="number" min="0" max="5" step="0.01" placeholder="예: 5.00"></td>
+        <td><button class="delete-btn" onclick="deleteRow(this)">삭제</button></td>
+      `;
+
+      tableBody.appendChild(newRow);
+    }
+
+    function deleteRow(button) {
+      const row = button.parentElement.parentElement;
+      row.remove();
+    }
+
+    function calculateSectionGPA(tableId, maxGP) {
+      const rows = document.querySelectorAll(`#${tableId} tbody tr`);
+
+      let totalPoints = 0;
+      let totalCredits = 0;
+
+      for (let row of rows) {
+        const inputs = row.querySelectorAll("input");
+
+        const creditValue = inputs[0].value;
+        const gpValue = inputs[1].value;
+
+        if (creditValue === "" && gpValue === "") {
+          continue;
+        }
+
+        const credit = Number(creditValue);
+        const gp = Number(gpValue);
+
+        if (isNaN(credit) || isNaN(gp) || credit <= 0 || gp < 0 || gp > maxGP) {
+          alert("학점과 GP 값을 올바르게 입력해주세요.");
+          return null;
+        }
+
+        totalPoints += credit * gp;
+        totalCredits += credit;
+      }
+
+      return {
+        totalPoints: totalPoints,
+        totalCredits: totalCredits,
+        gpa: totalCredits > 0 ? totalPoints / totalCredits : 0
+      };
+    }
+
+    function calculateGPA() {
+      const regular = calculateSectionGPA("regularTable", 4);
+      const honors = calculateSectionGPA("honorsTable", 5);
+
+      if (regular === null || honors === null) {
+        return;
+      }
+
+      const totalPoints = regular.totalPoints + honors.totalPoints;
+      const totalCredits = regular.totalCredits + honors.totalCredits;
+
+      if (totalCredits === 0) {
+        alert("계산할 학점과 GP를 입력해주세요.");
+        return;
+      }
+
+      const overallWeightedGPA = totalPoints / totalCredits;
+
+      document.getElementById("result").innerHTML = `
+        <strong>Regular GPA:</strong> ${regular.totalCredits > 0 ? regular.gpa.toFixed(2) : "-"} <br>
+        <strong>Honors & AP GPA:</strong> ${honors.totalCredits > 0 ? honors.gpa.toFixed(2) : "-"} <br>
+        <strong>전체 Weighted GPA:</strong> ${overallWeightedGPA.toFixed(2)}
+      `;
+    }
+  </script>
+
+</body>
+</html>
