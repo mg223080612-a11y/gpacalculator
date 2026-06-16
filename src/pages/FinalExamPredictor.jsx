@@ -26,8 +26,6 @@ const itemOptions = [
   "Participation",
   "Homework",
   "Presentation",
-  "Test",
-  "Exam",
   "Others",
 ];
 
