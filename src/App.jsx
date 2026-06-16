@@ -9,6 +9,7 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
+        <img src="/gvcs-logo.png" alt="GVCS Logo" className="logo" />
         <h1>GPA Calculator</h1>
         <p>GPA 계산과 기말고사 필요 점수를 한 번에 확인합니다.</p>
       </header>
