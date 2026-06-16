@@ -1,0 +1,68 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #f7f9fc;
+  color: #222;
+  font-family: Arial, sans-serif;
+}
+
+.app {
+  padding: 30px;
+}
+
+.app-header {
+  max-width: 1100px;
+  margin: 0 auto 20px auto;
+  text-align: center;
+}
+
+.app-header h1 {
+  color: #005a9c;
+  margin-bottom: 8px;
+}
+
+.app-header p {
+  color: #555;
+  margin: 0;
+}
+
+.main-tabs {
+  max-width: 1100px;
+  margin: 0 auto 24px auto;
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #d1d5db;
+}
+
+.main-tabs button {
+  border: none;
+  cursor: pointer;
+  padding: 13px 22px;
+  background: #e5e7eb;
+  color: #374151;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 10px 10px 0 0;
+}
+
+.main-tabs button.active {
+  background: #005a9c;
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 16px;
+  }
+
+  .main-tabs {
+    flex-direction: column;
+  }
+
+  .main-tabs button {
+    border-radius: 8px;
+  }
+}
