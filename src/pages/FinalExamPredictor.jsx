@@ -14,12 +14,21 @@ const gradeTargets = [
 ];
 
 const itemOptions = [
-  "중간고사",
-  "수행평가",
-  "수시평가",
-  "학습활동 및 수업태도",
-  "출석",
-  "기타",
+  "Midterm",
+  "Final",
+  "Attendance",
+  "Classwork",
+  "Quiz",
+  "Assignment",
+  "Assessment",
+  "Project",
+  "Behavior",
+  "Participation",
+  "Homework",
+  "Presentation",
+  "Test",
+  "Exam",
+  "Others",
 ];
 
 const initialRows = [
