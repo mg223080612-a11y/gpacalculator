@@ -108,7 +108,7 @@ function FinalExamPredictor() {
 
   const formatRequiredScore = (score) => {
     if (score > 100) {
-      return "불가능";
+      return "Keep Dreaming";
     }
 
     return `${score.toFixed(2)}점`;
