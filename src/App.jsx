@@ -10,7 +10,7 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>GPA Calculator</h1>
-        <p>GPA 계산과 기말고사 필요 점수를 확인합니다.</p>
+        <p>GPA 계산과 기말고사 필요 점수를 한 번에 확인합니다.</p>
       </header>
 
       <nav className="main-tabs">
@@ -29,8 +29,10 @@ function App() {
         </button>
       </nav>
 
-      {activePage === "gpa" && <GpaCalculator />}
-      {activePage === "final" && <FinalExamPredictor />}
+      <main>
+        {activePage === "gpa" && <GpaCalculator />}
+        {activePage === "final" && <FinalExamPredictor />}
+      </main>
     </div>
   );
 }

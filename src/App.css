@@ -1,68 +1,182 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
 * {
   box-sizing: border-box;
 }
 
+html {
+  min-height: 100%;
+}
+
 body {
   margin: 0;
-  background-color: #f7f9fc;
-  color: #222;
-  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  color: #3a1533;
+  font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic",
+    "Apple SD Gothic Neo", Arial, sans-serif;
+  letter-spacing: -0.02em;
+
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      rgba(255, 241, 118, 0.75),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 88% 12%,
+      rgba(255, 128, 171, 0.45),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(255, 213, 79, 0.55),
+      transparent 34%
+    ),
+    linear-gradient(135deg, #fff8cf 0%, #ffe6f1 45%, #fff3b0 100%);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255, 128, 171, 0.28) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 213, 79, 0.3) 1px, transparent 1px);
+  background-size: 34px 34px, 48px 48px;
+  background-position: 0 0, 16px 18px;
+  opacity: 0.35;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+input,
+select,
+textarea {
+  letter-spacing: -0.02em;
 }
 
 .app {
-  padding: 30px;
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  padding: 34px 22px 50px;
 }
 
 .app-header {
   max-width: 1100px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 24px;
   text-align: center;
 }
 
 .app-header h1 {
-  color: #005a9c;
-  margin-bottom: 8px;
+  margin: 0;
+  font-size: 46px;
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  color: #3a1533;
+  text-shadow: 0 4px 14px rgba(233, 30, 99, 0.12);
 }
 
 .app-header p {
-  color: #555;
-  margin: 0;
+  margin: 12px 0 0;
+  color: #7a4a68;
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.6;
 }
 
 .main-tabs {
   max-width: 1100px;
-  margin: 0 auto 24px auto;
+  margin: 0 auto 28px;
   display: flex;
-  gap: 8px;
-  border-bottom: 2px solid #d1d5db;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(255, 192, 203, 0.7);
+  border-radius: 999px;
+  box-shadow:
+    0 12px 28px rgba(233, 30, 99, 0.1),
+    0 6px 16px rgba(255, 193, 7, 0.14);
+  backdrop-filter: blur(8px);
 }
 
 .main-tabs button {
-  border: none;
-  cursor: pointer;
-  padding: 13px 22px;
-  background: #e5e7eb;
-  color: #374151;
-  font-size: 15px;
-  font-weight: bold;
-  border-radius: 10px 10px 0 0;
+  min-width: 170px;
+  padding: 14px 24px;
+  border-radius: 999px;
+  background: transparent;
+  color: #7a4a68;
+  font-size: 16px;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+}
+
+.main-tabs button:hover {
+  background: #fff7fb;
+  box-shadow: 0 8px 18px rgba(233, 30, 99, 0.12);
 }
 
 .main-tabs button.active {
-  background: #005a9c;
-  color: white;
+  background: linear-gradient(135deg, #ec407a, #ff80ab);
+  color: #ffffff;
+  box-shadow: 0 10px 22px rgba(236, 64, 122, 0.26);
 }
 
-@media (max-width: 600px) {
+main {
+  position: relative;
+  z-index: 1;
+}
+
+::selection {
+  background: #ff80ab;
+  color: #ffffff;
+}
+
+@media (max-width: 650px) {
   .app {
-    padding: 16px;
+    padding: 24px 14px 40px;
+  }
+
+  .app-header h1 {
+    font-size: 34px;
+  }
+
+  .app-header p {
+    font-size: 15px;
   }
 
   .main-tabs {
     flex-direction: column;
+    border-radius: 22px;
   }
 
   .main-tabs button {
-    border-radius: 8px;
+    width: 100%;
+    min-width: 0;
   }
 }
