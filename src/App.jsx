@@ -1,6 +1,7 @@
 import { useState } from "react";
 import GpaCalculator from "./pages/GpaCalculator";
 import FinalExamPredictor from "./pages/FinalExamPredictor";
+import CumulativeGpa from "./pages/CumulativeGpa";
 import "./App.css";
 
 function App() {
@@ -23,6 +24,13 @@ function App() {
         </button>
 
         <button
+          className={activePage === "cumulative" ? "active" : ""}
+          onClick={() => setActivePage("cumulative")}
+        >
+          Cumulative GPA
+        </button>
+
+        <button
           className={activePage === "final" ? "active" : ""}
           onClick={() => setActivePage("final")}
         >
@@ -32,6 +40,7 @@ function App() {
 
       <main>
         {activePage === "gpa" && <GpaCalculator />}
+        {activePage === "cumulative" && <CumulativeGpa />}
         {activePage === "final" && <FinalExamPredictor />}
       </main>
     </div>
