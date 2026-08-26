@@ -11,41 +11,11 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  color: #3a1533;
+  color: #1a2744;
   font-family: "Pretendard", "Noto Sans KR", "Malgun Gothic",
     "Apple SD Gothic Neo", Arial, sans-serif;
   letter-spacing: -0.02em;
-
-  background:
-    radial-gradient(
-      circle at 12% 8%,
-      rgba(255, 241, 118, 0.75),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 88% 12%,
-      rgba(255, 128, 171, 0.45),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 50% 100%,
-      rgba(255, 213, 79, 0.55),
-      transparent 34%
-    ),
-    linear-gradient(135deg, #fff8cf 0%, #ffe6f1 45%, #fff3b0 100%);
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle, rgba(255, 128, 171, 0.28) 1px, transparent 1px),
-    radial-gradient(circle, rgba(255, 213, 79, 0.3) 1px, transparent 1px);
-  background-size: 34px 34px, 48px 48px;
-  background-position: 0 0, 16px 18px;
-  opacity: 0.35;
+  background: #f5f7fb;
 }
 
 button,
@@ -97,13 +67,12 @@ textarea {
   font-size: 46px;
   font-weight: 900;
   letter-spacing: -0.055em;
-  color: #3a1533;
-  text-shadow: 0 4px 14px rgba(233, 30, 99, 0.12);
+  color: #0f1d36;
 }
 
 .app-header p {
   margin: 12px 0 0;
-  color: #7a4a68;
+  color: #4a5a78;
   font-size: 17px;
   font-weight: 600;
   line-height: 1.6;
@@ -114,15 +83,12 @@ textarea {
   margin: 0 auto 28px;
   display: flex;
   justify-content: center;
-  gap: 12px;
-  padding: 8px;
-  background: rgba(255, 255, 255, 0.7);
-  border: 2px solid rgba(255, 192, 203, 0.7);
+  gap: 8px;
+  padding: 6px;
+  background: #ffffff;
+  border: 1px solid #d0dae8;
   border-radius: 999px;
-  box-shadow:
-    0 12px 28px rgba(233, 30, 99, 0.1),
-    0 6px 16px rgba(255, 193, 7, 0.14);
-  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(15, 29, 54, 0.06);
 }
 
 .main-tabs button {
@@ -130,21 +96,20 @@ textarea {
   padding: 14px 24px;
   border-radius: 999px;
   background: transparent;
-  color: #7a4a68;
+  color: #4a5a78;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 800;
   letter-spacing: -0.025em;
 }
 
 .main-tabs button:hover {
-  background: #fff7fb;
-  box-shadow: 0 8px 18px rgba(233, 30, 99, 0.12);
+  background: #f0f4fa;
 }
 
 .main-tabs button.active {
-  background: linear-gradient(135deg, #ec407a, #ff80ab);
+  background: #1a2f55;
   color: #ffffff;
-  box-shadow: 0 10px 22px rgba(236, 64, 122, 0.26);
+  box-shadow: 0 4px 14px rgba(26, 47, 85, 0.25);
 }
 
 main {
@@ -153,7 +118,7 @@ main {
 }
 
 ::selection {
-  background: #ff80ab;
+  background: #2952a3;
   color: #ffffff;
 }
 
@@ -172,7 +137,7 @@ main {
 
   .main-tabs {
     flex-direction: column;
-    border-radius: 22px;
+    border-radius: 18px;
   }
 
   .main-tabs button {
@@ -180,6 +145,7 @@ main {
     min-width: 0;
   }
 }
+
 .header {
   display: flex;
   align-items: center;
